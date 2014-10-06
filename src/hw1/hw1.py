@@ -32,7 +32,7 @@ def estimate(rfunc):
 
         # do Monte-Carlo estimate
         start = time.clock()
-        N = 10000
+        N = 1000
         mc_estimates = [de.samplingEntropyEst(xs[i], N, sigmas[i]) for i in range(trials)]
         elapsed = time.clock()-start
         print "MC estimate %d samples (%d iters): mean %g, std %g (%dms)" % \
