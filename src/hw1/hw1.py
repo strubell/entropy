@@ -32,12 +32,12 @@ def estimate(rfunc):
         print "Using sigma = %g" % (sigma)
 
         # # do Monte-Carlo estimate
-        # start = time.clock()
-        # N = 10000
-        # mc_estimates = [de.samplingEntropyEst(xs, N, sigma) for i in range(trials)]
-        # elapsed = time.clock()-start
-        # print "MC estimate %d samples (%d iters): mean %g, std %g (%dms)" % \
-        #       (n, N, np.mean(mc_estimates), np.std(mc_estimates), elapsed)
+        start = time.clock()
+        N = 1000
+        mc_estimates = [de.samplingEntropyEst(xs, N, sigma) for i in range(trials)]
+        elapsed = time.clock()-start
+        print "MC estimate %d samples (%d iters): mean %g, std %g (%dms)" % \
+              (n, N, np.mean(mc_estimates), np.std(mc_estimates), elapsed)
 
         # do m-spacings estimate
         start = time.clock()
@@ -54,10 +54,11 @@ def estimate(rfunc):
 # 2. Do Monte-Carlo estimation
 # 3. Do m-spacings estimation
 
-# print "uniform(0,1)"
-# uniform_01 = partial(np.random.uniform, low=0.0, high=1.0)
-# estimate(uniform_01)
+# print "uniform(0,1) (should be 0.0)"
+# estimate(partial(np.random.uniform, low=0.0, high=1.0))
 
-print "uniform(0,8)"
-uniform_08 = partial(np.random.uniform, low=0.0, high=8.0)
-estimate(uniform_08)
+# print "uniform(0,8) (should be 3.0)"
+# estimate(partial(np.random.uniform, low=0.0, high=8.0))
+
+print "uniform(0,0.5) (should be )"
+estimate(partial(np.random.uniform, low=0.0, high=0.5))
