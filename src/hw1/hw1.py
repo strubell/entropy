@@ -29,7 +29,7 @@ def estimate(rfunc):
         # get range of sigmas to try, find best
         S = get_S(xs, n)
         sigma = de.findBestSigma(xs, S)
-        print "Using sigma = %g" % (sigma)
+        # print "Using sigma = %g" % (sigma)
 
         # # do Monte-Carlo estimate
         start = time.clock()
