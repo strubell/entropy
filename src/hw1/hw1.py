@@ -8,6 +8,7 @@ from __future__ import division
 import differential_entropy as de
 from functools import partial
 import numpy as np
+import sys
 import time
 
 # a reasonable range for values of sigma: num_sigmas evenly spaced
@@ -44,6 +45,7 @@ def estimate(rfunc):
         elapsed = time.clock()-start
         print "m-spacings estimate %d samples: mean %g, std %g (%fms)" % \
               (n, np.mean(ms_estimates), np.std(ms_estimates)**2, elapsed/trials)
+        sys.stdout.flush()
 
 
 # for each distribution,
