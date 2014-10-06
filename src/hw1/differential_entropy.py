@@ -31,8 +31,7 @@ def looAvgLogLike(xs, sigma):
     pool = multiprocessing.Pool()
     chunks = len(xs)//pool._processes
     looPoints = pool.map(partial(looPoint, xs=xs, sigma=sigma), range(xs.size), chunks)
-    # return np.mean(np.log2([x for x in looPoints if x != 0.0]))
-    return np.mean(np.log2(looPoints))
+    return np.mean(np.log2([x for x in looPoints if x != 0.0]))
 
 # Returns the best sigma in S (the one that maximizes the log likelihood)
 def findBestSigma(xs, S):
