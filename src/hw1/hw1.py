@@ -54,14 +54,30 @@ def estimate(rfunc):
 # 2. Do Monte-Carlo estimation
 # 3. Do m-spacings estimation
 
-print "uniform(0,1) (should be 0.0)"
+print "uniform(0,1) (lg(1) = 0.0)"
 estimate(partial(np.random.uniform, low=0.0, high=1.0))
+print
 
-print "uniform(0,8) (should be 3.0)"
+print "uniform(0,8) (lg(8) = 3.0)"
 estimate(partial(np.random.uniform, low=0.0, high=8.0))
+print
 
-print "uniform(0,0.5) (should be -1.0)"
+print "uniform(0,0.5) (lg(0.5) = -1.0)"
 estimate(partial(np.random.uniform, low=0.0, high=0.5))
+print
 
-print "gaussian(0,1) (should be )"
-estimate(partial(np.random.normal, low=0.0, high=0.5))
+print "gaussian(0,1) (0.5*lg(2*pi*e) = 2.05)"
+estimate(partial(np.random.normal, loc=0.0, scale=1.0))
+print
+
+print "gaussian(0,100) (0.5*lg(2*pi*e*100^2) = 8.69)"
+estimate(partial(np.random.normal, loc=0.0, scale=100.0))
+print
+
+print "exponential(0,1) (1-lg(1) = 1.0)"
+estimate(partial(np.random.exponential, loc=1.0))
+print
+
+print "exponential(0,100) (1-lg(100) = -5.64)"
+estimate(partial(np.random.exponential, loc=100.0))
+print
