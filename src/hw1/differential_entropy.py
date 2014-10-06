@@ -46,9 +46,9 @@ def sampleNPDE(xs, sigma):
     return np.random.normal(point, sigma)
 
 def samplingEntropyEst(xs, N, sigma):
-    pool = multiprocessing.Pool()
-    chunks = N//pool._processes
-    samples = pool.map(partial(densEst, x=sampleNPDE(xs, sigma), sigma=sigma), [xs for i in range(N)], chunks)
+    # pool = multiprocessing.Pool()
+    # chunks = N//pool._processes
+    samples = [densEst(xs, sampleNPDE(xs, sigma), sigma=sigma) for i in range(N)]
     return np.mean(-np.log2(samples))
 
 '''
