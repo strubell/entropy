@@ -11,6 +11,9 @@ import scipy.stats as stats
 from functools import partial
 
 
+# constant for normal distribution
+
+
 '''
 Leave-one-out estimation
 '''
@@ -20,17 +23,22 @@ Leave-one-out estimation
 def densEst(xs, x, sigma):
     # print "mu: %g, sigma: %g" % (x, sigma)
     # return np.mean([normal_pdf(xs[i], x, sigma) for i in range(len(xs))])
-    return np.mean([stats.norm.pdf(x, xs[i], sigma) for i in range(len(xs))])
+    s = 1/(np.sqrt(2*np.pi)*sigma)
+    return np.mean([s * np.exp(-((x-x_i)**2 / (2*sigma**2))) for x_i in xs])
+    # return np.mean([stats.norm.pdf(x, xs[i], sigma) for i in range(len(xs))])
 
 # Generates a leave-one-out point estimate for data point j using densEst
-def looPoint(j, xs, sigma):
+def looPoint(xs, j, sigma):
     xs_less_j = [x for idx, x in enumerate(xs) if not idx == j]
     return densEst(xs_less_j, xs[j], sigma)
 
+# def looAvgLogLike(xs, sigma):
+#     pool = multiprocessing.Pool()
+#     chunks = len(xs)//pool._processes
+#     looPoints = pool.map(partial(looPoint, xs=xs, sigma=sigma), range(xs.size), chunks)
+#     return np.mean(np.log2([x for x in looPoints if x != 0.0]))
 def looAvgLogLike(xs, sigma):
-    pool = multiprocessing.Pool()
-    chunks = len(xs)//pool._processes
-    looPoints = pool.map(partial(looPoint, xs=xs, sigma=sigma), range(xs.size), chunks)
+    looPoints = [looPoint(xs, j, sigma) for j in range(xs.size)]
     return np.mean(np.log2([x for x in looPoints if x != 0.0]))
 
 # Returns the best sigma in S (the one that maximizes the log likelihood)
