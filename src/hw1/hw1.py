@@ -23,28 +23,27 @@ def estimate(rfunc):
     ns = [10, 100, 1000]
     for n in ns:
         # generate some points
-        xs = rfunc(size=n)
-        xs.sort()
+        xs = [rfunc(size=n) for i in range(trials)]
+        for i in range(trials):
+            xs[i].sort()
 
         # get range of sigmas to try, find best
-        S = get_S(xs, n)
-        sigma = de.findBestSigma(xs, S)
-        # print "Using sigma = %g" % (sigma)
+        sigmas = [de.findBestSigma(xs[i], get_S(xs[i], n)) for i in range(trials)]
 
-        # # do Monte-Carlo estimate
+        # do Monte-Carlo estimate
         start = time.clock()
         N = 10000
-        mc_estimates = [de.samplingEntropyEst(xs, N, sigma) for i in range(trials)]
+        mc_estimates = [de.samplingEntropyEst(xs[i], N, sigmas[i]) for i in range(trials)]
         elapsed = time.clock()-start
         print "MC estimate %d samples (%d iters): mean %g, std %g (%dms)" % \
-              (n, N, np.mean(mc_estimates), np.std(mc_estimates), elapsed)
+              (n, N, np.mean(mc_estimates), np.std(mc_estimates), elapsed/trials)
 
         # do m-spacings estimate
         start = time.clock()
-        ms_estimates = [de.mspacingsEntropyEst(xs) for i in range(trials)]
+        ms_estimates = [de.mspacingsEntropyEst(xs[i]) for i in range(trials)]
         elapsed = time.clock()-start
         print "m-spacings estimate %d samples: mean %g, std %g (%dms)" % \
-              (n, np.mean(ms_estimates), np.std(ms_estimates)**2, elapsed)
+              (n, np.mean(ms_estimates), np.std(ms_estimates)**2, elapsed/trials)
 
 
 # for each distribution,
