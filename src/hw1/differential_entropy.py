@@ -46,7 +46,7 @@ def sampleNPDE(xs, sigma):
     return np.random.normal(point, sigma)
 
 def samplingEntropyEst(xs, N, sigma):
-    return np.mean(np.log2([densEst(xs, sampleNPDE(xs, sigma), sigma) for i in range(N)]))
+    return np.mean(-np.log2([densEst(xs, sampleNPDE(xs, sigma), sigma) for i in range(N)]))
 
 '''
 m-spacings estimation

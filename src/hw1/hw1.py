@@ -62,3 +62,6 @@ estimate(partial(np.random.uniform, low=0.0, high=8.0))
 
 print "uniform(0,0.5) (should be -1.0)"
 estimate(partial(np.random.uniform, low=0.0, high=0.5))
+
+print "gaussian(0,1) (should be )"
+estimate(partial(np.random.normal, low=0.0, high=0.5))
