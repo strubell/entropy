@@ -42,7 +42,7 @@ def estimate(rfunc):
         start = time.clock()
         ms_estimates = [de.mspacingsEntropyEst(xs[i]) for i in range(trials)]
         elapsed = time.clock()-start
-        print "m-spacings estimate %d samples: mean %g, std %g (%dms)" % \
+        print "m-spacings estimate %d samples: mean %g, std %g (%fms)" % \
               (n, np.mean(ms_estimates), np.std(ms_estimates)**2, elapsed/trials)
 
 
