@@ -19,8 +19,8 @@ def get_S(xs_sorted, n):
     return np.linspace(min_diff, max_diff, num_sigmas)
 
 def estimate(rfunc):
-    trials = 1
-    ns = [10, 100]#, 1000]
+    trials = 10
+    ns = [10, 100, 1000]
     for n in ns:
         # generate some points
         xs = rfunc(size=n)
