@@ -36,7 +36,7 @@ def estimate(rfunc):
         N = 1000
         mc_estimates = [de.samplingEntropyEst(xs[i], N, sigmas[i]) for i in range(trials)]
         elapsed = time.clock()-start
-        print "MC estimate %d samples (%d iters): mean %g, std %g (%dms)" % \
+        print "MC estimate %d samples (%d iters): mean %g, std %g (%fms)" % \
               (n, N, np.mean(mc_estimates), np.std(mc_estimates), elapsed/trials)
 
         # do m-spacings estimate
