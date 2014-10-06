@@ -20,14 +20,14 @@ def get_S(xs_sorted, n):
 
 def estimate(rfunc):
     trials = 1
-    ns = [10, 100, 1000]
+    ns = [10, 100]#, 1000]
     for n in ns:
         # generate some points
         xs = rfunc(size=n)
-        xs_sorted = sorted(xs)
+        xs.sort()
 
         # get range of sigmas to try, find best
-        S = get_S(xs_sorted, n)
+        S = get_S(xs, n)
         sigma = de.findBestSigma(xs, S)
         print "Using sigma = %g" % (sigma)
 
@@ -41,7 +41,7 @@ def estimate(rfunc):
 
         # do m-spacings estimate
         start = time.clock()
-        ms_estimates = [de.mspacingsEntropyEst(xs_sorted) for i in range(trials)]
+        ms_estimates = [de.mspacingsEntropyEst(xs) for i in range(trials)]
         elapsed = time.clock()-start
         print "m-spacings estimate %d samples: mean %g, std %g (%dms)" % \
               (n, np.mean(ms_estimates), np.std(ms_estimates)**2, elapsed)
@@ -54,11 +54,11 @@ def estimate(rfunc):
 # 2. Do Monte-Carlo estimation
 # 3. Do m-spacings estimation
 
-# print "uniform(0,1) (should be 0.0)"
-# estimate(partial(np.random.uniform, low=0.0, high=1.0))
+print "uniform(0,1) (should be 0.0)"
+estimate(partial(np.random.uniform, low=0.0, high=1.0))
 
-# print "uniform(0,8) (should be 3.0)"
-# estimate(partial(np.random.uniform, low=0.0, high=8.0))
+print "uniform(0,8) (should be 3.0)"
+estimate(partial(np.random.uniform, low=0.0, high=8.0))
 
-print "uniform(0,0.5) (should be )"
+print "uniform(0,0.5) (should be -1.0)"
 estimate(partial(np.random.uniform, low=0.0, high=0.5))
