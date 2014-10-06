@@ -33,7 +33,7 @@ def estimate(rfunc):
 
         # # do Monte-Carlo estimate
         start = time.clock()
-        N = 1000
+        N = 10000
         mc_estimates = [de.samplingEntropyEst(xs, N, sigma) for i in range(trials)]
         elapsed = time.clock()-start
         print "MC estimate %d samples (%d iters): mean %g, std %g (%dms)" % \
@@ -75,9 +75,9 @@ estimate(partial(np.random.normal, loc=0.0, scale=100.0))
 print
 
 print "exponential(0,1) (1-lg(1) = 1.0)"
-estimate(partial(np.random.exponential, loc=1.0))
+estimate(partial(np.random.exponential, scale=1.0))
 print
 
 print "exponential(0,100) (1-lg(100) = -5.64)"
-estimate(partial(np.random.exponential, loc=100.0))
+estimate(partial(np.random.exponential, scale=100.0))
 print
