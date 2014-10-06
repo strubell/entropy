@@ -12,32 +12,52 @@ import time
 
 # a reasonable range for values of sigma: num_sigmas evenly spaced
 # from min diff between samples to max diff between samples
-def get_S(xs, n):
+def get_S(xs_sorted, n):
     num_sigmas = 10
-    diffs = [[np.abs(xs[i]-xs[j]) for i in range(n) if xs[i] != xs[j]] for j in range(n)]
-    min_diff = np.min(diffs)
-    max_diff = np.max(diffs)
+    max_diff = xs_sorted[-1] - xs_sorted[0]
+    min_diff = np.min([xs_sorted[i+1]-xs_sorted[i] for i in range(n-1)])
     return np.linspace(min_diff, max_diff, num_sigmas)
 
-def plugin_estimator(xs, S):
-    return de.findBestSigma(xs, S)
-
-def mc_estimator(xs, S):
-    return de.findBestSigma(xs, S)
-
-def estimate(rfunc, estimator):
-    ns = [10, 100]
+def estimate(rfunc):
+    trials = 1
+    ns = [10, 100, 1000]
     for n in ns:
+        # generate some points
         xs = rfunc(size=n)
-        S = get_S(xs, n)
-        start = time.clock()
-        estimates = [estimator(xs, S) for r in range(10)]
-        elapsed = time.clock()-start
-        print "%d samples: mean %g, std %g (%dms)" % (n, np.mean(estimates), np.std(estimates)**2, elapsed)
+        xs_sorted = sorted(xs)
 
-print "uniform(0,1)"
-uniform_01 = partial(np.random.uniform, low=0.0, high=1.0)
-print "plug-in estimate"
-estimate(uniform_01, plugin_estimator)
-print "monte carlo estimate"
-estimate(uniform_01, plugin_estimator)
+        # get range of sigmas to try, find best
+        S = get_S(xs_sorted, n)
+        sigma = de.findBestSigma(xs, S)
+        print "Using sigma = %g" % (sigma)
+
+        # # do Monte-Carlo estimate
+        # start = time.clock()
+        # N = 10000
+        # mc_estimates = [de.samplingEntropyEst(xs, N, sigma) for i in range(trials)]
+        # elapsed = time.clock()-start
+        # print "MC estimate %d samples (%d iters): mean %g, std %g (%dms)" % \
+        #       (n, N, np.mean(mc_estimates), np.std(mc_estimates), elapsed)
+
+        # do m-spacings estimate
+        start = time.clock()
+        ms_estimates = [de.mspacingsEntropyEst(xs_sorted) for i in range(trials)]
+        elapsed = time.clock()-start
+        print "m-spacings estimate %d samples: mean %g, std %g (%dms)" % \
+              (n, np.mean(ms_estimates), np.std(ms_estimates)**2, elapsed)
+
+
+# for each distribution,
+# for each n in [10, 100, 1000, 10000]
+# for 10 samples
+# 1. Find best sigma using plug-in estimate
+# 2. Do Monte-Carlo estimation
+# 3. Do m-spacings estimation
+
+# print "uniform(0,1)"
+# uniform_01 = partial(np.random.uniform, low=0.0, high=1.0)
+# estimate(uniform_01)
+
+print "uniform(0,8)"
+uniform_08 = partial(np.random.uniform, low=0.0, high=8.0)
+estimate(uniform_08)
