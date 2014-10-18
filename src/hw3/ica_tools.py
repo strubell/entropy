@@ -45,7 +45,7 @@ def find_best_rotation(data, rotations):
 # and applying it to the data, returns the rotation matrices used
 def transform(data):
     dim = data.shape[0]
-    thetas = np.linspace(0, 2*np.pi, 10)
+    thetas = np.linspace(0, np.pi, 180)
     directions = itertools.combinations(range(dim), 2)
     print "getting rotation matrices"
     rotation_matrices = [map(partial(get_rotation_mat, dim=dim, p=direction[0], q=direction[1]), thetas) for direction in directions]
