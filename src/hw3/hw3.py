@@ -3,33 +3,49 @@
 #
 # Running the experiments for hw3
 #
+
 from __future__ import division
 import numpy as np
 import ica_tools as ica
 import scipy.io as io
-import scikits.audiolab as audio
+#import scikits.audiolab as audio
 
-data_dir = "dat/"
-fnames = [data_dir + "mix1.mat", data_dir + "mix2.mat", data_dir + "mix3.mat"]
+data_dir = "dat"
 
 def get_matlab_array(fname):
     return io.loadmat(fname)[fname[4:-4]]
-mixes = map(get_matlab_array, fnames)
 
-# play audio
-audio.play(mixes[0], fs=44100)
-audio.play(mixes[1], fs=44100)
-audio.play(mixes[2], fs=44100)
+def do_source_separation(mixes):
 
-data = np.matrix(np.vstack(mixes))
-#rotations = ica.transform(data)
-rotations = np.concatenate(ica.transform(data), ica.transform(data))
-final_rotation_matrix = reduce(np.dot, reversed(rotations))
-print "final rotation matrix:"
-print final_rotation_matrix
+    # play start files
+    # for mix in mixes:
+    #     audio.play(mix, fs=44100)
 
-# play audio
-audio.play(data[0,:], 44100)
-audio.play(data[1,:], 44100)
-audio.play(data[2,:], 44100)
+    data = np.matrix(np.vstack(mixes))
+    rotations1 = ica.transform(data)
+    rotations2 = ica.transform(data)
+    rotations = np.concatenate((rotations1, rotations2))
+    print rotations.shape
+    final_rotation_matrix = reduce(np.dot, reversed(rotations))
+    print "final rotation matrix:"
+    print final_rotation_matrix
 
+    # play separated files
+    # for i in range(len(mixes)):
+    #     audio.play(data[i,:], 44100)
+
+def do_source_sep3():
+    fnames = ["%s/mix%d.mat" % (data_dir,i) for i in range(1,4)]
+    mixes = [io.loadmat(fname)[fname[4:-4]] for fname in fnames]
+    do_source_separation(mixes)
+
+def do_source_sep5():
+    fname = "%s/mixFive.mat" % (data_dir)
+    mixes = [io.loadmat(fname)["mixFive%d" % (i)] for i in range(1,6)]
+    do_source_separation(mixes)
+
+# do source separation on 3 sources
+do_source_sep3()
+
+# do source separation on 5 sources
+do_source_sep5()
