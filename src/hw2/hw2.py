@@ -3,7 +3,6 @@
 #
 # Running the experiments for hw2
 #
-#
 from __future__ import division
 import differential_entropy as de
 from functools import partial

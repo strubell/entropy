@@ -1,0 +1,120 @@
+\documentclass[12pt]{article}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{chngpage}
+\usepackage[protrusion=true,expansion,kerning]{microtype}
+\usepackage{url}
+
+% adjust margins:
+\topmargin=-0.25in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=8.5in
+\headsep=0.25in
+
+% document-specific information
+\newcommand{\docTitle}{Assignment \#2}
+\newcommand{\docSubTitle}{}
+\newcommand{\docDate}{}
+\newcommand{\docClass}{CS650}
+\newcommand{\docInstructor}{Learned-Miller}
+\newcommand{\authorName}{Emma Strubell}
+
+% header and footer
+\pagestyle{fancy}
+\lhead{\authorName}
+\chead{\bf\docTitle}
+\rhead{\docClass\ -- \docInstructor}   
+\lfoot{}
+\cfoot{}
+\rfoot{\emph{Page\ \thepage\ of\ \pageref{LastPage}}}                          
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\begin{document}
+
+My most significant observation is that the $m$-spacings estimate is both faster and more accurate than the Monte-Carlo estimate. Table 1 lists the estimates by both estimators for varying sample sizes, averaged over 10 trials (with standard deviation). Overall $m$-spacings was closer to the true entropy almost always, especially as the sample size increased, except in the case of the exponential distribution where both estimates were terrible (especially exponential(100)). 
+
+The $m$-spacings estimate was also significantly faster than Monte-Carlo, especially considering that the Monte Carlo method could probably have done better as I increased the number of iterations. The runtimes of both algorithms grew as a function of the number of samples, of course, but the runtime of Monte-Carlo grew much more quickly. Table 2 lists the runtimes of the two algorithms for each distribution and sample size $n$. The runtimes varied little between distributions, which is to be expected. On the other hand, $m$-spacings runs in time $O(n\log n)$, the time to sort the samples, plus $m$, which performs well when less than $n$. 
+
+Both estimators performed very poorly on exponential(100). In this distribution, all the mass of the pdf is concentrated very close to 0, so it makes sense that both the Monte-Carlo estimate, which estimates using Gaussian kernels which will add incorrect mass, and the $m$-spacings estimate, which like any numerical integration algorithm will approximate poorly at quickly-changing ranges of a function (such as this). Using a better numerical integration algorithm would probably do a better job as estimating the entropy in this case.
+
+The only situation I can think of where Monte-Carlo might be preferable to $m$-spacings would be if there is little data sampled from the distribution. In this case, running Monte-Carlo for enough iterations might provide a better estimate of the entropy than $m$-spacings, which relies more heavily on the initial sample (since no additional sampling occurs).
+
+\begin{center}
+\begin{table}
+\begin{tabular}{lllll}
+{\bf Distribution} & {\bf True $h$ } & {\bf $n$} & {\bf Monte-Carlo } & {\bf $m$-spacings}\\ \hline 
+uniform(0,1) & $\lg(1) = 0$ & 10 & $0.3219 \pm 0.2751$ & $-0.1714 \pm 0.0747$ \\
+ & & 100 & $0.26715 \pm 0.0463677$ &  $-0.0690 \pm 0.0011$ \\
+ & & 1000 & $-2.49515 \pm 5.58292$ &  $-0.0235 \pm 6.5208\times10^{-5}$ \\ 
+ 
+uniform(0,8) & $\lg(8) = 3$ & 10 & $3.4402 \pm 0.1926$ & $2.9346 \pm 0.0567$ \\
+ & & 100 & $3.3195 \pm 0.0243$ &  $2.9509 \pm 0.0024$ \\
+ & & 1000 & $3.2777 \pm 0.0256$ &  $2.9802 \pm 4.0289\times10^{-5}$ \\ 
+ 
+uniform(0,0.5) & $\lg(0.5) = -1$ & 10 & $-1.4129 \pm 1.6137$ & $-1.2184 \pm 0.0759$ \\
+ & & 100 & $-1.7605 \pm 3.1261$ &  $-1.03782 \pm 0.0015$ \\
+ & & 1000 & $-0.7250 \pm 0.0195$ &  $-1.0242 \pm 7.7779\times10^{-5}$ \\ 
+ 
+normal(0,1) & $0.5\lg(2\pi e) = 2.05$ & 10 & $1.42822 \pm 1.97364$ & $1.2267 \pm 0.4973$ \\
+ & & 100 & $2.18353 \pm 0.1067$ &  $1.7270 \pm 0.0133$ \\
+ & & 1000 & $2.32333 \pm 0.0405$ &  $1.8984 \pm 0.0012$ \\ 
+ 
+normal(0,100) & $0.5\lg(2\pi e100^2) = 8.69$ & 10 & $7.3408 \pm 3.0965$ & $8.1366 \pm 0.0551$ \\
+ & & 100 & $8.8521 \pm 0.0919$ &  $8.4051 \pm 0.0122$ \\
+ & & 1000 & $8.9824 \pm 0.0436$ &  $8.5596 \pm 0.0010 $ \\ 
+
+exponential(1) & $1-\lg(1) = 1$ & 10 & $1.1309 \pm 3.210$ & $1.0267 \pm 0.4533$ \\
+ & & 100 & $0.8691 \pm 3.5342$ &  $1.3311 \pm 0.0290$ \\
+ & & 1000 & $2.3550 \pm 0.1396$ &  $1.3560 \pm 0.0026 $ \\ 
+ 
+exponential(100) & $1-\lg(100) = -5.64$ & 10 & $7.6651 \pm 2.0079$ & $7.6974 \pm 0.2348$ \\
+ & & 100 & $8.7938 \pm 0.2597$ &  $7.8923 \pm 0.0192$ \\
+ & & 1000 & $8.9715 \pm 0.0932$ &  $8.0304 \pm 0.0008 $ \\
+\end{tabular}
+\caption{True entropy compared to Monte-Carlo and $m$-spacings estimates, each averaged over 10 sets of samples. Monte-Carlo estimation was run for 1000 sampling iterations, $m$-spacings estimate uses an $m$ of $\sqrt(n)$ rounded to the closest integer. $\sigma$ was estimated using leave-one-out estimation for 10 possible values of $\sigma$, evenly spaced between the max and min differences between the sampled values.}
+\end{table}
+\end{center}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{lllll}
+{\bf Distribution} &  {\bf $n$} & {\bf Monte-Carlo } & {\bf $m$-spacings}\\ \hline 
+uniform(0,1) & 10 & 0.052678 & 0.000021 \\
+ & 100 & 0.388988 & 0.000082 \\
+ & 1000 & 3.822288 & 0.000752 \\ 
+ 
+uniform(0,8) & 10 & 0.052635 & 0.000020 \\
+ & 100 & 0.388361 & 0.000083 \\
+ & 1000 & 3.798591 & 0.000751 \\ 
+ 
+uniform(0,0.5) & 10 & 0.052816 & 0.000021 \\
+ & 100 & 0.390069 & 0.000082 \\
+ & 1000 & 3.779472 & 0.000750 \\ 
+ 
+gaussian(0,1) & 10 & 0.053223 & 0.000024 \\
+ & 100 & 0.388734 & 0.000083 \\
+ & 1000 & 3.792698 & 0.000750 \\ 
+ 
+gaussian(0,100) & 10 & 0.052916 & 0.000021 \\
+ & 100 & 0.388825 & 0.000083 \\
+ & 1000 & 3.802550 & 0.000752 \\ 
+ 
+exponential(1) & 10 & 0.052916 & 0.000020 \\
+ & 100 & 0.389565 & 0.000083 \\
+ & 1000 & 3.786111 & 0.000752 \\ 
+ 
+exponential(100) & 10 & 0.052710 & 0.000020 \\
+ & 100 & 0.393292 & 0.000083 \\
+ & 1000 & 3.789277 & 0.000750 \\ 
+\end{tabular}
+\caption{Runtime in milliseconds averaged over the 10 trials for each distribution and sample size $n$, for both estimators.}
+\end{center}
+\end{table}
+
+\end{document}
