@@ -22,10 +22,7 @@ def do_source_separation(mixes):
     #     audio.play(mix, fs=44100)
 
     data = np.matrix(np.vstack(mixes))
-    rotations1 = ica.transform(data)
-    rotations2 = ica.transform(data)
-    rotations = np.concatenate((rotations1, rotations2))
-    print rotations.shape
+    rotations = ica.transform(data)
     final_rotation_matrix = reduce(np.dot, reversed(rotations))
     print "final rotation matrix:"
     print final_rotation_matrix
@@ -35,11 +32,13 @@ def do_source_separation(mixes):
     #     audio.play(data[i,:], 44100)
 
 def do_source_sep3():
+    print "--- 3 source separation ---"
     fnames = ["%s/mix%d.mat" % (data_dir,i) for i in range(1,4)]
     mixes = [io.loadmat(fname)[fname[4:-4]] for fname in fnames]
     do_source_separation(mixes)
 
 def do_source_sep5():
+    print "--- 5 source separation ---"
     fname = "%s/mixFive.mat" % (data_dir)
     mixes = [io.loadmat(fname)["mixFive%d" % (i)] for i in range(1,6)]
     do_source_separation(mixes)
@@ -48,4 +47,4 @@ def do_source_sep5():
 do_source_sep3()
 
 # do source separation on 5 sources
-# do_source_sep5()
+do_source_sep5()
