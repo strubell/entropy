@@ -37,11 +37,12 @@ def find_best_rotation(data, rotations):
 
 def transform(data):
     dim = data.shape[0]
-    thetas = np.linspace(0, np.pi, 180)
+    thetas = np.linspace(0, np.pi, 3)
     directions = list(itertools.combinations(range(dim), 2))
     num_directions = len(directions)
     rotation_matrices = [map(partial(get_rotation_mat, dim=dim, p=direction[0], q=direction[1]), thetas) for direction in directions]
-    best_rotations = np.empty((2*num_directions, dim, dim))
+    # best_rotations = np.empty((2*num_directions, dim, dim))
+    best_rotations = np.empty((num_directions, dim, dim))
 
     # temp thing
     for i in range(num_directions):
