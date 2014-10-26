@@ -8,7 +8,7 @@ from __future__ import division
 import image_alignment as imgalign
 import matplotlib.image as mpimg
 from scipy import misc as scimisc
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from os import listdir
 from os.path import isfile, join
 
