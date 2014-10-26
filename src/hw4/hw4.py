@@ -21,9 +21,11 @@ bins = [16, 32, 64, 128]
 print imgs[1].shape
 aligned_img = imgalign.align(imgs[1], 128)
 scimisc.imsave(processed_dir + "/processed-" + files[1], aligned_img)
-plt.imshow(aligned_img)
-plt.show()
+# plt.imshow(aligned_img)
+# plt.show()
 
 # for img in imgs:
 #     for b in bins:
 #         aligned_img = imgalign.align(img, b)
+#            scimisc.imsave(processed_dir + "/processed-" + files[1], aligned_img)
+
