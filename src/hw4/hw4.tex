@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{chngpage}
+\usepackage[protrusion=true,expansion,kerning]{microtype}
+\usepackage{url}
+
+% adjust margins:
+\topmargin=-0.25in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=8.5in
+\headsep=0.25in
+
+% document-specific information
+\newcommand{\docTitle}{Assignment \#3}
+\newcommand{\docSubTitle}{}
+\newcommand{\docDate}{}
+\newcommand{\docClass}{CS650}
+\newcommand{\docInstructor}{Learned-Miller}
+\newcommand{\authorName}{Emma Strubell}
+
+% header and footer
+\pagestyle{fancy}
+\lhead{\authorName}
+\chead{\bf\docTitle}
+\rhead{\docClass\ -- \docInstructor}   
+\lfoot{}
+\cfoot{}
+\rfoot{\emph{Page\ \thepage\ of\ \pageref{LastPage}}}                          
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\begin{document}
+Final rotation matrix for 3 dimensions:
+\begin{align*}
+\begin{bmatrix}
+  -0.14295654 & -0.94082031 & -0.30727932 \\
+  0.06055146 & -0.31820043 & 0.94608774 \\
+  -0.98787497 & 0.11664322 & 0.10245687
+\end{bmatrix}
+\end{align*}
+
+Final rotation matrix for 5 dimensions:
+\begin{align*}
+%\begin{bmatrix}
+%  0.39773973&-0.24205259& -0.15788047& -0.87079119 & 0.00317907\\
+% -0.44861537& -0.54780395 & 0.67873794 &-0.1753857 & 0.08491022\\
+%  0.40412443&  0.57751707& 0.69952414 &-0.10256377 & 0.0574816 \\
+%  0.11984375& -0.07139445&-0.07753464 & 0.09223065 & 0.98286428\\
+%  0.68034424& -0.55018018 & 0.13799612 & 0.43810585& -0.1531464 
+%\end{bmatrix}
+\hspace{-1cm}
+\begin{bmatrix}
+0.3834572	&0.5888965&	0.6997950	&-0.1255567&	-0.02614843\\
+-0.2103098&	-0.02229453	&0.07899202	&-0.1048968&	-0.9685192\\
+-0.3013270&	0.2364474&	0.1291026	&0.9142291	&-0.02849829\\
+-0.5534138&	-0.4446428&	0.6572992	&-0.1539698&	0.2006917\\
+0.6416115&	-0.6317353&	0.2352388	&0.3372098	&-0.1421172
+\end{bmatrix}
+\end{align*}
+
+My solution seems to have worked. For the 3 signals, each row of the matrix contained the sound of one voice, suprisingly clearly! For the 5 signals the procedure did not work quite as well, but after rotation there seemed to be some kind of separation, but not perfectly.
+
+\end{document}
