@@ -5,16 +5,25 @@
 #
 
 from __future__ import division
-import numpy as np
 import image_alignment as imgalign
-import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+from scipy import misc as scimisc
+import matplotlib.pyplot as plt
+from os import listdir
+from os.path import isfile, join
 
 data_dir = "dat"
-fname = "00194v.jpg"
-img = mpimg.imread(data_dir + "/" + fname)
+processed_dir = "processed"
+files = [f for f in listdir(data_dir) if isfile(join(data_dir,f))]
+imgs = [mpimg.imread(data_dir + "/" + file) for file in files]
+bins = [16, 32, 64, 128]
 
-b = 128
-aligned_img = imgalign.align(img, b)
-plot = plt.imshow(aligned_img)
+print imgs[1].shape
+aligned_img = imgalign.align(imgs[1], 128)
+scimisc.imsave(processed_dir + "/processed-" + files[1], aligned_img)
+plt.imshow(aligned_img)
 plt.show()
+
+# for img in imgs:
+#     for b in bins:
+#         aligned_img = imgalign.align(img, b)
