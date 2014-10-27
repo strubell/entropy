@@ -37,8 +37,31 @@
 \renewcommand\footrulewidth{0.4pt}
 
 \begin{document}
-The following are my resulting images:
+I experimented with bin sizes of 16, 32, 64, and 128. The following are my resulting images, all of which are examples aligned computed with a bin size of 128:
+
 \begin{center}
-\includegraphics[scale=1.0]{processed/processed-128-00149v.jpg}
+\includegraphics[scale=0.6]{processed/processed-128-00149v.jpg}~
+\includegraphics[scale=0.6]{processed/processed-128-00153v.jpg}
 \end{center}
+
+\begin{center}
+\includegraphics[scale=0.6]{processed/processed-128-00163v.jpg}~
+\includegraphics[scale=0.6]{processed/processed-128-00194v.jpg}
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.6]{processed/processed-128-00398v.jpg}~
+\includegraphics[scale=0.6]{processed/processed-128-00458v.jpg}
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.6]{processed/processed-128-00600v.jpg}~
+\includegraphics[scale=0.6]{processed/processed-128-01167v.jpg}
+\end{center}
+
+I found that the method worked well on most of the images, most of them looking just as aligned using 16 bins as with 128, with the exception of the single-tree image. This means that the coarse histogram often provided enough information about the image to align it without requiring futher binning, which makes sense since we were only shifting the image by 15 pixels anyway.
+
+When I shifted the image, I padded with zeroes, which is the cause for the colorful edges -- a shifted layer with some white padding will allow other colos to show through.
+
+I'm not sure why the tree image performed poorly compared to the others.
 \end{document}
