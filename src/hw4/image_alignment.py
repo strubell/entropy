@@ -13,7 +13,7 @@ import multiprocessing
 PAD_VALUE = 0
 
 # max number of pixes by which to shift image
-MAX_SHIFT = 2
+MAX_SHIFT = 15
 single_dir_shifts = range(1, MAX_SHIFT+1)
 all_shifts = list(itertools.product(single_dir_shifts, single_dir_shifts, single_dir_shifts, single_dir_shifts))
 
